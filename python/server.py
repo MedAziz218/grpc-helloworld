@@ -28,7 +28,7 @@ def serve(port):
     helloworld_pb2_grpc.add_HelloWorldServiceServicer_to_server(HelloWorldServiceServicer(), server)
     server.add_insecure_port(f'[::]:{port}')
     server.start()
-    print(f"Server is running on port {port}")
+    print(f"'Python' gRPC Server is running on port {port}")
     server.wait_for_termination()
 
 def main():
