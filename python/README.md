@@ -1,4 +1,3 @@
-
 # gRPC HelloWorld Application
 
 This project demonstrates a simple gRPC-based client-server application that sends "Hello World" messages in multiple languages. The server responds with a message in French, English, or Arabic based on the user's input.
@@ -60,7 +59,7 @@ This command will generate the necessary Python code to interact with the `hello
 
 ## Running the Application
 
-### Step 1: Run the gRPC Server
+### Running the gRPC Server
 
 To start the gRPC server, run the following command in a terminal inside this folder:
 
@@ -78,7 +77,7 @@ If you want to run the server on a different port, you can specify it using the 
 python server.py --port 50051
 ```
 
-### Step 2: Run the gRPC Client
+### Running the gRPC Client
 
 To send requests to the server, open another terminal (or use a different machine) and run the client:
 
@@ -96,7 +95,7 @@ Example usage:
 python client.py fr
 ```
 
-This will send a request in French and receive a response from the server running on `localhost:9999`.
+This will send a request in French and receive a response from the server running on `127.0.0.1:9999`.
 
 #### Specify a Custom IP Address and Port
 
@@ -106,7 +105,7 @@ By default, the client connects to `localhost` on port `9999`. You can specify a
 python client.py fr --ip 127.0.0.1 --port 50051
 ```
 
-This will connect to the server running at IP address `192.168.1.10` on port `50051`.
+This will connect to the server running at IP address `127.0.0.1` on port `50051`.
 
 #### Random Language Testing
 
@@ -132,3 +131,5 @@ This simple gRPC application demonstrates:
 - A client that can request a greeting in a specified language
 - The ability to connect the client to any IP address and port
 - The option to run randomized requests to the server
+
+
