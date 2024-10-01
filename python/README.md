@@ -35,31 +35,31 @@ Activate the environment based on your operating system:
 
 Install the necessary packages using `pip`. You can either use the `requirements.txt` file or manually install the specific package versions.
 
-#### Option 1: Install from `requirements.txt`
+- **Option 1:** Install from `requirements.txt`
 
-```bash
-pip install -r requirements.txt
-```
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-#### Option 2: Manually Install Dependencies
+- **Option 2:** Manually Install Dependencies
 
-```bash
-pip install grpcio==1.66.1 grpcio-tools==1.66.1 protobuf==5.27.2
-```
+    ```bash
+    pip install grpcio==1.66.1 grpcio-tools==1.66.1 protobuf==5.27.2
+    ```
 
-## Compiling the Protobuf Files
+### Step 4: Compile the Protobuf Files
+
 
 To generate the Python protobuf and gRPC interfaces from the `.proto` file, run the following command:
 
 ```bash
-python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. --proto_path=..\..\protos helloworld.proto
+python -m grpc_tools.protoc --python_out=. --grpc_python_out=. --proto_path=..\protos helloworld.proto
 ```
 
 This command will generate the necessary Python code to interact with the `helloworld.proto` definitions.
 
-## Running the Application
 
-### Running the gRPC Server
+## Running the gRPC Server
 
 To start the gRPC server, run the following command in a terminal inside this folder:
 
@@ -77,7 +77,7 @@ If you want to run the server on a different port, you can specify it using the 
 python server.py --port 50051
 ```
 
-### Running the gRPC Client
+## Running the gRPC Client
 
 To send requests to the server, open another terminal (or use a different machine) and run the client:
 
