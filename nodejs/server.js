@@ -29,13 +29,13 @@ const sayHello = (call, callback) => {
     let message;
     switch (language) {
         case 'fr':
-            message = 'Java dit Bonjour le monde';
+            message = 'JavaScript dit Bonjour le monde';
             break;
         case 'en':
-            message = 'Java say Hello World';
+            message = 'JavaScript say Hello World';
             break;
         case 'ar':
-            message = 'جافا يقول مرحبا بالعالم ';
+            message = 'جافا سكربت يقول مرحبا بالعالم ';
             break;
         default:
             message = 'Language not supported!';
