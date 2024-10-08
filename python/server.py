@@ -13,11 +13,11 @@ class HelloWorldServiceServicer(helloworld_pb2_grpc.HelloWorldServiceServicer):
         i = self.request_counter
         print(f"{i}>>> received request for language: {language}")
         if language == "fr":
-            message = "Bonjour le monde"
+            message = "python dit Bonjour le monde "
         elif language == "en":
-            message = "Hello World"
+            message = "python say Hello World"
         elif language == "ar":
-            message = "مرحبا بالعالم"
+            message = "بايثون يقول مرحبا بالعالم  "
         else:
             message = "Language not supported"
 
