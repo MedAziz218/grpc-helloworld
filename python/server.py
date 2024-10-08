@@ -17,7 +17,7 @@ class HelloWorldServiceServicer(helloworld_pb2_grpc.HelloWorldServiceServicer):
         elif language == "en":
             message = "python say Hello World"
         elif language == "ar":
-            message = "بايثون يقول مرحبا بالعالم  "
+            message = "بايثون يقول مرحبا بالعالم "
         else:
             message = "Language not supported"
 
