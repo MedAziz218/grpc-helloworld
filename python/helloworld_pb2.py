@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x10helloworld.proto\x12\nhelloworld\" \n\x0cHelloRequest\x12\x10\n\x08language\x18\x01 \x01(\t\" \n\rHelloResponse\x12\x0f\n\x07message\x18\x01 \x01(\t2T\n\x11HelloWorldService\x12?\n\x08SayHello\x12\x18.helloworld.HelloRequest\x1a\x19.helloworld.HelloResponseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x10helloworld.proto\x12\nhelloworld\" \n\x0cHelloRequest\x12\x10\n\x08language\x18\x01 \x01(\t\" \n\rHelloResponse\x12\x0f\n\x07message\x18\x01 \x01(\t\"I\n\x12HelloStreamRequest\x12\x10\n\x08language\x18\x01 \x01(\t\x12\r\n\x05\x63ount\x18\x02 \x01(\x05\x12\x12\n\nintervalMS\x18\x03 \x01(\x05\"4\n\x13HelloStreamResponse\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x0c\n\x04time\x18\x02 \x01(\t2\xac\x01\n\x11HelloWorldService\x12?\n\x08SayHello\x12\x18.helloworld.HelloRequest\x1a\x19.helloworld.HelloResponse\x12V\n\x11SayHelloManyTimes\x12\x1e.helloworld.HelloStreamRequest\x1a\x1f.helloworld.HelloStreamResponse0\x01\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -35,6 +35,10 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_HELLOREQUEST']._serialized_end=64
   _globals['_HELLORESPONSE']._serialized_start=66
   _globals['_HELLORESPONSE']._serialized_end=98
-  _globals['_HELLOWORLDSERVICE']._serialized_start=100
-  _globals['_HELLOWORLDSERVICE']._serialized_end=184
+  _globals['_HELLOSTREAMREQUEST']._serialized_start=100
+  _globals['_HELLOSTREAMREQUEST']._serialized_end=173
+  _globals['_HELLOSTREAMRESPONSE']._serialized_start=175
+  _globals['_HELLOSTREAMRESPONSE']._serialized_end=227
+  _globals['_HELLOWORLDSERVICE']._serialized_start=230
+  _globals['_HELLOWORLDSERVICE']._serialized_end=402
 # @@protoc_insertion_point(module_scope)

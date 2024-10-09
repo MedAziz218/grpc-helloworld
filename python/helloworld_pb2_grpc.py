@@ -40,6 +40,11 @@ class HelloWorldServiceStub(object):
                 request_serializer=helloworld__pb2.HelloRequest.SerializeToString,
                 response_deserializer=helloworld__pb2.HelloResponse.FromString,
                 _registered_method=True)
+        self.SayHelloManyTimes = channel.unary_stream(
+                '/helloworld.HelloWorldService/SayHelloManyTimes',
+                request_serializer=helloworld__pb2.HelloStreamRequest.SerializeToString,
+                response_deserializer=helloworld__pb2.HelloStreamResponse.FromString,
+                _registered_method=True)
 
 
 class HelloWorldServiceServicer(object):
@@ -53,6 +58,12 @@ class HelloWorldServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def SayHelloManyTimes(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_HelloWorldServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -60,6 +71,11 @@ def add_HelloWorldServiceServicer_to_server(servicer, server):
                     servicer.SayHello,
                     request_deserializer=helloworld__pb2.HelloRequest.FromString,
                     response_serializer=helloworld__pb2.HelloResponse.SerializeToString,
+            ),
+            'SayHelloManyTimes': grpc.unary_stream_rpc_method_handler(
+                    servicer.SayHelloManyTimes,
+                    request_deserializer=helloworld__pb2.HelloStreamRequest.FromString,
+                    response_serializer=helloworld__pb2.HelloStreamResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -90,6 +106,33 @@ class HelloWorldService(object):
             '/helloworld.HelloWorldService/SayHello',
             helloworld__pb2.HelloRequest.SerializeToString,
             helloworld__pb2.HelloResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def SayHelloManyTimes(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(
+            request,
+            target,
+            '/helloworld.HelloWorldService/SayHelloManyTimes',
+            helloworld__pb2.HelloStreamRequest.SerializeToString,
+            helloworld__pb2.HelloStreamResponse.FromString,
             options,
             channel_credentials,
             insecure,
