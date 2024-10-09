@@ -20,7 +20,15 @@ const helloWorldProto = grpc.loadPackageDefinition(packageDefinition).helloworld
 
 // Implement the sayHello RPC method
 let request_counter = 0;
+const getCurrentTime = () => {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    const milliseconds = String(now.getMilliseconds()).padStart(3, '0');
 
+    return `${hours}:${minutes}:${seconds}:${milliseconds}`;
+}
 function getGreeting(language) {
     switch (language) {
         case 'fr':
@@ -70,12 +78,12 @@ function SayHelloManyTimes(call) {
         }
 
         // Get current time
-        const now = new Date().toISOString();
+        const current_time = getCurrentTime();
 
         // Create response message
         const response = {
             message: `${greeting} ${sentCount + 1}`,
-            time: now,
+            time: current_time,
         };
 
         call.write(response); // Stream the response to the client

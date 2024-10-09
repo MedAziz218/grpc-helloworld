@@ -22,6 +22,31 @@ def callSayHello(language, stub: helloworld_pb2_grpc.HelloWorldServiceStub):
         print(f"Error: {e.details()}")
 
 
+def callSayHelloManyTimes(
+    language,
+    count,
+    intervalMS,
+    stub: helloworld_pb2_grpc.HelloWorldServiceStub,
+    onEnd=None,
+):
+    request = helloworld_pb2.HelloStreamRequest(
+        language=language, count=count, intervalMS=intervalMS
+    )
+    print(f"--> sent gRPC request {count} hellos in ({language}) with {intervalMS} ms in between ...")
+
+    try:
+        response_stream = stub.SayHelloManyTimes(request)
+        for response in response_stream:
+            print(f"Response: [{response.time}] {response.message}")
+        # Stream has ended if we exit the for loop
+        print("Stream has ended.")
+        if onEnd:
+            onEnd()
+
+    except grpc.RpcError as e:
+        print(f"Error: {e.details()}")
+
+
 def main():
     # parse arguments
     parser = argparse.ArgumentParser(
@@ -83,17 +108,39 @@ def main():
 
     # run main function depending on arguments
     language = args.language
+    count = args.count
+    intervalMS = args.intervalMS
     ip = args.ip
     port = args.port
     with grpc.insecure_channel(f"{ip}:{port}") as channel:
         stub = helloworld_pb2_grpc.HelloWorldServiceStub(channel)
+        if count == 1:
+            if args.random_test:
+                while True:
+                    callSayHello(getRandomLanguage(), stub)
+                    time.sleep(1)
+            else:
+                callSayHello(language, stub)
+        elif count > 1:
+            if args.random_test:
+                while True:
 
-        if args.random_test:
-            while True:
-                callSayHello(getRandomLanguage(), stub)
-                time.sleep(1)
-        else:
-            callSayHello(language, stub)
+                    def randomCall():
+                        time.sleep(1)
+                        callSayHelloManyTimes(
+                            getRandomLanguage(),
+                            count,
+                            intervalMS,
+                            stub,
+                            onEnd=randomCall,
+                        )
+
+                    callSayHelloManyTimes(
+                        getRandomLanguage(), count, intervalMS, stub, onEnd=randomCall
+                    )
+                    time.sleep(1)
+            else:
+                callSayHelloManyTimes(language, count, intervalMS, stub)
 
 
 if __name__ == "__main__":

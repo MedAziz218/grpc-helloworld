@@ -7,6 +7,9 @@ from concurrent import futures
 from datetime import datetime
 import time
 
+def get_current_time():
+    now = datetime.now()
+    return now.strftime("%H:%M:%S:%f")[:-3]  # Strip last three digits to get ms precision
 
 def get_greeting(language):
     if language == "fr":
@@ -46,7 +49,7 @@ class HelloWorldServiceServicer(helloworld_pb2_grpc.HelloWorldServiceServicer):
 
         # Stream responses with a delay in between
         for i in range(count):
-            current_time = datetime.now().isoformat()
+            current_time = get_current_time()
             message = f"{greeting} {i + 1}"
 
             response = helloworld_pb2.HelloStreamResponse(

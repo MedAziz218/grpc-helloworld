@@ -60,6 +60,7 @@ const packageDefinition = protoLoader.loadSync(PROTO_PATH, {});
 const helloWorldProto = grpc.loadPackageDefinition(packageDefinition).helloworld;
 
 const client = new helloWorldProto.HelloWorldService(`${argv.ip}:${argv.port}`, grpc.credentials.createInsecure());
+
 const getRandomLanguage = () => languages[Math.floor(Math.random() * languages.length)];
 const callSayHello = (language) => {
     console.log(`--> sent gRPC request (${language})...`)
@@ -85,7 +86,7 @@ function callSayHelloManyTimes(language, count, intervalMS, onEnd = () => { }) {
     const call = client.SayHelloManyTimes(request);
 
     call.on('data', (response) => {
-        console.log(`[${response.time}] Message: ${response.message}`);
+        console.log(`Response: [${response.time}] ${response.message}`);
     });
 
     call.on('end', () => {
