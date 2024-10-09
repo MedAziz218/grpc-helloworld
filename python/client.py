@@ -11,7 +11,6 @@ languages = ["fr", "en", "ar"]
 def getRandomLanguage():
     return random.choice(languages)
 
-
 def callSayHello(language, stub: helloworld_pb2_grpc.HelloWorldServiceStub):
     request = helloworld_pb2.HelloRequest(language=language)
     print(f"--> Sent gRPC request ({language})...")
@@ -32,7 +31,9 @@ def callSayHelloManyTimes(
     request = helloworld_pb2.HelloStreamRequest(
         language=language, count=count, intervalMS=intervalMS
     )
-    print(f"--> sent gRPC request {count} hellos in ({language}) with {intervalMS} ms in between ...")
+    print(
+        f"--> sent gRPC request {count} hellos in ({language}) with {intervalMS} ms in between ..."
+    )
 
     try:
         response_stream = stub.SayHelloManyTimes(request)
@@ -84,45 +85,47 @@ def main():
         default=1000,
         help="Delay in milliseconds between server stream responses (for count > 1)",
     )
-
     args = parser.parse_args()
 
-    # check arguments
-    if not args.random_test and not args.language:
-        print(
-            "Error: Language argument is required. Please provide a language (fr, en, ar). (use --help for more information)"
-        )
-        exit(1)
-
-    if args.count <= 0:
-        print(
-            "Error: --count argument must be greater than 0. (use --help for more information)"
-        )
-        exit(1)
-
-    if args.count > 1 and args.intervalMS < 0:
-        print(
-            "Error: --intervalMS argument must be greater than or equal to 0. (use --help for more information)"
-        )
-        exit(1)
-
-    # run main function depending on arguments
+    # destructure and validate arguments
     language = args.language
     count = args.count
     intervalMS = args.intervalMS
     ip = args.ip
     port = args.port
+    random_test = args.random_test
+
+    if not random_test and not language:
+        print(
+            "Error: Language argument is required. Please provide a language (fr, en, ar). (use --help for more information)"
+        )
+        exit(1)
+
+    if count <= 0:
+        print(
+            "Error: --count argument must be greater than 0. (use --help for more information)"
+        )
+        exit(1)
+
+    if count > 1 and intervalMS < 0:
+        print(
+            "Error: --intervalMS argument must be greater than or equal to 0. (use --help for more information)"
+        )
+        exit(1)
+
+    # create grpc channel and run main function depending on arguments
+
     with grpc.insecure_channel(f"{ip}:{port}") as channel:
         stub = helloworld_pb2_grpc.HelloWorldServiceStub(channel)
         if count == 1:
-            if args.random_test:
+            if random_test:
                 while True:
                     callSayHello(getRandomLanguage(), stub)
                     time.sleep(1)
             else:
                 callSayHello(language, stub)
         elif count > 1:
-            if args.random_test:
+            if random_test:
                 while True:
 
                     def randomCall():
