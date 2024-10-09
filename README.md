@@ -8,4 +8,6 @@ This project illustrates how gRPC can be used to establish client-server connect
 - [Python](python/README.md): A gRPC implementation in Python, demonstrating how to create and connect clients and servers.
 - [Flutter (Dart)](mobileapp/README.md): A mobile application implementation using Flutter and Dart for gRPC communication.
 
+**Important Note:** The Flutter implementation does not currently support the `SayHelloManyTimes` feature. Therefore, you cannot use the `--count` and `--intervalMS` options when using its client or server.
+
 Each implementation contains its own README file with detailed instructions on how to initialize and use the gRPC setup for that specific language.
