@@ -1,4 +1,4 @@
-# gRPC HelloWorld Application
+# gRPC HelloWorld Application in Python
 
 This project demonstrates a simple gRPC-based client-server application that sends "Hello World" messages in multiple languages. The server responds with a message in French, English, or Arabic based on the user's input.
 
@@ -79,49 +79,63 @@ python server.py --port 50051
 
 ## Running the gRPC Client
 
-To send requests to the server, open another terminal (or use a different machine) and run the client:
 
-#### Basic Usage
+The client supports various options to control the number of responses, the delay between them, and how it connects to the server.
 
-You need to specify the language when running the client. The supported languages are:
+### Basic Usage
+
+Specify the language when running the client. Supported languages are:
 
 - `fr` for French
 - `en` for English
 - `ar` for Arabic
 
-Example usage:
+Example:
 
 ```bash
-python client.py fr
+python client.py en
 ```
 
-This will send a request in French and receive a response from the server running on `127.0.0.1:9999`.
+This sends a request in English to the server running on `127.0.0.1:9999`.
 
-#### Specify a Custom IP Address and Port
+### Custom IP and Port
 
-By default, the client connects to `localhost` on port `9999`. You can specify a custom IP address and/or port using the `--ip` and `--port` arguments:
+By default, the client connects to `localhost` on port `9999`. To use a custom IP and port:
 
 ```bash
 python client.py fr --ip 127.0.0.1 --port 50051
 ```
 
-This will connect to the server running at IP address `127.0.0.1` on port `50051`.
+### Specify Number of Replies and Delay
 
-#### Random Language Testing
+The client can request multiple replies from the server using gRPC streams:
 
-To send requests every second with a random language, use the `--random-test` argument:
+- `--count` (default: 1): Specifies how many replies to receive. If `count > 1`, the server will use gRPC streaming to send multiple responses.
+- `--intervalMS` (default: 0): Sets the delay in milliseconds between each reply when `count > 1`.
+
+Example:
+
+```bash
+python client.py en --count 5 --intervalMS 200 --port 9999 --ip 127.0.0.1
+```
+
+This requests 5 replies from the server with a 200 ms delay between each one.
+
+### Random Language Testing
+
+To send requests with a randomly chosen language every second:
 
 ```bash
 python client.py --random-test
 ```
 
-This will continuously send random requests in French, English, or Arabic to the server every second.
-
-You can also use the `--ip` and `--port` arguments with the `--random-test` option:
+You can combine this with the `--count` and `--intervalMS` options to stream multiple replies:
 
 ```bash
-python client.py --random-test --ip 127.0.0.1 --port 50051
+python client.py --random-test --count 5 --intervalMS 200 --port 9999 --ip 127.0.0.1
 ```
+
+This sends random requests every second, receiving 5 replies with a 200 ms delay between each.
 
 ## Summary
 
