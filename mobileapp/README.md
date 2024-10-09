@@ -1,16 +1,116 @@
-# mobileapp
+# Flutter gRPC Application
 
-A new Flutter project.
+This Flutter project demonstrates the usage of gRPC for communication between a mobile application and a gRPC server. Follow the instructions below to set up, build, and run the project.
 
-## Getting Started
+## Prerequisites
 
-This project is a starting point for a Flutter application.
+Before you can run this project, make sure you have the following installed:
 
-A few resources to get you started if this is your first Flutter project:
+- **Flutter SDK**  
+  [Download and install Flutter](https://flutter.dev/docs/get-started/install)
+  
+- **Protocol Buffers (protoc)**  
+  Required for generating Dart code from `.proto` files.  
+  [Download Protocol Buffers](https://github.com/protocolbuffers/protobuf/releases/latest) (find the appropriate version for your system under "Assets").
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- **gRPC Dart Plugin**  
+  Used to generate gRPC client and server stubs from `.proto` files. Install it globally with:
+  
+  ```bash
+  dart pub global activate protoc_plugin
+  ```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Setting up Protocol Buffers on Windows
+
+### 1. Download and Install Protocol Buffers
+
+1. Download the `protoc-<version>-win64.zip` file from the [Protocol Buffers releases page](https://github.com/protocolbuffers/protobuf/releases/latest).
+2. Extract the `.zip` file to a folder. For example, extract it to `C:\protoc`.
+
+### 2. Add `protoc` to the Pub Directory
+
+1. Copy the `protoc.exe` file located in `C:\protoc\bin` and paste it into your Dart Pub directory. Typically, the Dart Pub directory is located at:
+   ```
+   C:\Users\<YourUsername>\AppData\Local\Pub\bin
+   ```
+
+### 3. Add `protoc` to System PATH
+
+1. Open the **Start Menu**, type **Environment Variables**, and select **Edit the system environment variables**.
+2. In the **System Properties** window, click on **Environment Variables**.
+3. In the **User variables** section, find and select the **Path** variable, then click **Edit**.
+4. In the **Edit Environment Variable** window, click **New** and add the path to the `bin` folder where you extracted Protocol Buffers, for example:
+   ```
+   C:\protoc\bin
+   ```
+5. Click **OK** to close all dialog windows.
+
+6. To verify that `protoc` is correctly installed and added to your `PATH`, open a new **Command Prompt** window and type:
+   ```bash
+   protoc --version
+   ```
+   You should see the version of `protoc` displayed.
+
+## Setup Instructions
+
+### 1. Install Dependencies
+
+Navigate to the project directory and install the required dependencies by running:
+
+```bash
+flutter pub get
+```
+
+### 2. Generate gRPC Code
+
+If you have made any changes to the `.proto` files, regenerate the Dart code by running the following command in the project root:
+
+```bash
+protoc --dart_out=grpc:lib/src/generated -Iprotos ../protos/helloworld.proto
+```
+
+This will generate the necessary Dart files for gRPC in `lib/src/generated`.
+
+### 3. Configure Internet Permission for Android
+
+Ensure that the project has internet permissions for Android to allow network requests. This is already configured in `AndroidManifest.xml`:
+
+```xml
+<uses-permission android:name="android.permission.INTERNET" />
+```
+
+### 4. Build and Run the Application
+
+To run the app on your connected device or emulator, execute the following command:
+
+```bash
+flutter run
+```
+
+For building a release version of the app, use:
+
+```bash
+flutter build apk
+```
+
+This will generate the APK file located in the `build/app/outputs/flutter-apk/` directory.
+
+### 5. Start gRPC Server
+
+The app uses a gRPC server. Make sure the server is running before you send requests. The server code is already integrated within the app, and it will start automatically when the app is launched.
+
+To run the server in debug mode, you can follow the logs in your IDE or use:
+
+```bash
+flutter logs
+```
+
+### 6. Test the Application
+
+After the server is up and running, you can send gRPC requests from the app to the server. The app will display notifications based on the received requests.
+
+## Additional Notes
+
+- **Regenerating gRPC Files**: If you modify the `.proto` files, remember to regenerate the Dart files using the `protoc` command.
+- **Internet Permission**: Make sure that internet permission is enabled on Android to allow communication over the network.
+  
