@@ -25,10 +25,6 @@ class HelloWorldServiceClient extends $grpc.Client {
       '/helloworld.HelloWorldService/SayHello',
       ($0.HelloRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.HelloResponse.fromBuffer(value));
-  static final _$sayHelloManyTimes = $grpc.ClientMethod<$0.HelloStreamRequest, $0.HelloStreamResponse>(
-      '/helloworld.HelloWorldService/SayHelloManyTimes',
-      ($0.HelloStreamRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.HelloStreamResponse.fromBuffer(value));
 
   HelloWorldServiceClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -38,10 +34,6 @@ class HelloWorldServiceClient extends $grpc.Client {
 
   $grpc.ResponseFuture<$0.HelloResponse> sayHello($0.HelloRequest request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$sayHello, request, options: options);
-  }
-
-  $grpc.ResponseStream<$0.HelloStreamResponse> sayHelloManyTimes($0.HelloStreamRequest request, {$grpc.CallOptions? options}) {
-    return $createStreamingCall(_$sayHelloManyTimes, $async.Stream.fromIterable([request]), options: options);
   }
 }
 
@@ -57,23 +49,11 @@ abstract class HelloWorldServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.HelloRequest.fromBuffer(value),
         ($0.HelloResponse value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.HelloStreamRequest, $0.HelloStreamResponse>(
-        'SayHelloManyTimes',
-        sayHelloManyTimes_Pre,
-        false,
-        true,
-        ($core.List<$core.int> value) => $0.HelloStreamRequest.fromBuffer(value),
-        ($0.HelloStreamResponse value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.HelloResponse> sayHello_Pre($grpc.ServiceCall call, $async.Future<$0.HelloRequest> request) async {
     return sayHello(call, await request);
   }
 
-  $async.Stream<$0.HelloStreamResponse> sayHelloManyTimes_Pre($grpc.ServiceCall call, $async.Future<$0.HelloStreamRequest> request) async* {
-    yield* sayHelloManyTimes(call, await request);
-  }
-
   $async.Future<$0.HelloResponse> sayHello($grpc.ServiceCall call, $0.HelloRequest request);
-  $async.Stream<$0.HelloStreamResponse> sayHelloManyTimes($grpc.ServiceCall call, $0.HelloStreamRequest request);
 }

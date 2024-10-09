@@ -27,12 +27,29 @@ Before you can run this project, make sure you have the following installed:
 1. Download the `protoc-<version>-win64.zip` file from the [Protocol Buffers releases page](https://github.com/protocolbuffers/protobuf/releases/latest).
 2. Extract the `.zip` file to a folder. For example, extract it to `C:\protoc`.
 
-### 2. Add `protoc` to the Pub Directory
+Here’s the fully corrected version with the additional note:
 
-1. Copy the `protoc.exe` file located in `C:\protoc\bin` and paste it into your Dart Pub directory. Typically, the Dart Pub directory is located at:
+### 2. Add `protoc-gen-dart` to the Protoc Directory
+
+1. Copy the `protoc-gen-dart.bat` file located in one of the following directories:
    ```
    C:\Users\<YourUsername>\AppData\Local\Pub\bin
    ```
+   or
+   ```
+   C:\Users\<YourUsername>\AppData\Local\Pub\Cache\bin
+   ```
+
+2. Paste the `protoc-gen-dart.bat` file into the Protoc installation directory, typically located at:
+   ```
+   C:\protoc\binj
+   ```
+
+3. **If `protoc-gen-dart.bat` is not found**, make sure that you've installed it by following the steps in the **Prerequisites** section, which typically involves running:
+   ```bash
+   dart pub global activate protoc_plugin
+   ```
+   This installs the Dart plugin for `protoc` and places the necessary files in the Pub directory.
 
 ### 3. Add `protoc` to System PATH
 
@@ -66,7 +83,7 @@ flutter pub get
 If you have made any changes to the `.proto` files, regenerate the Dart code by running the following command in the project root:
 
 ```bash
-protoc --dart_out=grpc:lib/src/generated -Iprotos ../protos/helloworld.proto
+protoc --dart_out=grpc:lib/src/generated --proto_path ../protos/ helloworld.proto
 ```
 
 This will generate the necessary Dart files for gRPC in `lib/src/generated`.
