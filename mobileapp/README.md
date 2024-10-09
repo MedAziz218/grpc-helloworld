@@ -83,7 +83,7 @@ flutter pub get
 If you have made any changes to the `.proto` files, regenerate the Dart code by running the following command in the project root:
 
 ```bash
-protoc --dart_out=grpc:lib/src/generated --proto_path ../protos/ helloworld.proto
+protoc --dart_out=grpc:lib/src/generated --proto_path ../protos/  helloworld.proto
 ```
 
 This will generate the necessary Dart files for gRPC in `lib/src/generated`.
