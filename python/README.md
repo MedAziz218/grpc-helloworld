@@ -1,4 +1,4 @@
-# gRPC HelloWorld Application
+# gRPC HelloWorld Application in Python
 
 This project demonstrates a simple gRPC-based client-server application that sends "Hello World" messages in multiple languages. The server responds with a message in French, English, or Arabic based on the user's input.
 
