@@ -60,7 +60,7 @@ const packageDefinition = protoLoader.loadSync(PROTO_PATH, {});
 const helloWorldProto = grpc.loadPackageDefinition(packageDefinition).helloworld;
 
 const client = new helloWorldProto.HelloWorldService(`${argv.ip}:${argv.port}`, grpc.credentials.createInsecure());
-
+const getRandomLanguage = () => languages[Math.floor(Math.random() * languages.length)];
 const callSayHello = (language) => {
     console.log(`--> sent gRPC request (${language})...`)
 
@@ -73,7 +73,7 @@ const callSayHello = (language) => {
     });
 };
 
-function callSayHelloManyTimes(language, count,intervalMS, onEnd = () => { }) {
+function callSayHelloManyTimes(language, count, intervalMS, onEnd = () => { }) {
 
     const request = {
         language,
@@ -100,28 +100,30 @@ function callSayHelloManyTimes(language, count,intervalMS, onEnd = () => { }) {
 
 
 if (count == 1) {
+    // unary rpc call
     if (argv.randomTest) {
-
-        // call SayHello every 1s with a random language
+        // random-test indefinitely
         setInterval(() => {
-            const randomLanguage = languages[Math.floor(Math.random() * languages.length)];
-            callSayHello(randomLanguage);
+            callSayHello(getRandomLanguage());
         }, 1000);
-
 
     } else {
         // call SayHello once with the specified language
         callSayHello(language);
     }
 } else if (count > 1) {
+    // stream call
     if (argv.randomTest) {
-        const onEnd = () => {
-            callSayHelloManyTimes(language, argv.count,intervalMS, onEnd);
+        // random-test indefinitely
+        const randomCall = () => {
+            setTimeout(() => {
+                callSayHelloManyTimes(getRandomLanguage(), count, intervalMS, onEnd = randomCall);
+            }, 1000);
         }
-        callSayHelloManyTimes(language, argv.count,intervalMS, onEnd);
-
+        callSayHelloManyTimes(getRandomLanguage(), count, intervalMS, onEnd = randomCall);
     }
     else {
-        callSayHelloManyTimes(language, argv.count,intervalMS);
+        // call once with the specified language
+        callSayHelloManyTimes(language, count, intervalMS);
     }
 }
